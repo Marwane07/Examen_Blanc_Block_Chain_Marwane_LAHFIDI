@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,8 +30,8 @@ public class BlockChainServiceImpl implements BlockChainService{
 
     @Override
     public Blockchain createBlockChain(String name,int difficulty,int reward) {
-       Blockchain blockchain = new Blockchain();
-       // first block on the blockchain
+        Blockchain blockchain = new Blockchain();
+        // first block on the blockchain
         Block GenisisBlock = blockService.createBlock(null,"");
         blockService.mineBlock(difficulty,GenisisBlock);
         blockchain.setNom(name);
@@ -44,25 +45,25 @@ public class BlockChainServiceImpl implements BlockChainService{
         return blockchain;
     }
 
-   @Override
+    @Override
     public void mineBlock(String blockchainID,String min_adr, List<Transaction> pendingTransactions) {
 
-       Blockchain blockchain = blockChainRepository.findById(blockchainID).get();
-       Block lastBlock = getLastBlock(blockchainID);
+        Blockchain blockchain = blockChainRepository.findById(blockchainID).get();
+        Block lastBlock = getLastBlock(blockchainID);
 
-       Block block = blockService.createBlock(pendingTransactions,lastBlock.getMy_hash());
+        Block block = blockService.createBlock(pendingTransactions,lastBlock.getMy_hash());
 
-       Block minedBlock = blockService.mineBlock(blockchain.getDifficulté(), block);
-       // add the mined block to the blockchain
-       blockchain.getBlocks().add(minedBlock);
+        Block minedBlock = blockService.mineBlock(blockchain.getDifficulté(), block);
+        // add the mined block to the blockchain
+        blockchain.getBlocks().add(minedBlock);
 
-       blockChainRepository.save(blockchain);
+        blockChainRepository.save(blockchain);
 
-   }
+    }
 
     @Override
     public Block getLastBlock(String blockchainID) {
-         Blockchain blockchain = blockChainRepository.findById(blockchainID).get();
+        Blockchain blockchain = blockChainRepository.findById(blockchainID).get();
         if(blockchain == null)
             return null;
         return blockchain.getBlocks().get(blockchain.getBlocks().size()-1);
@@ -81,8 +82,6 @@ public class BlockChainServiceImpl implements BlockChainService{
                 System.out.println("broblem in current hash");
                 System.out.println("block hash: "+block.getMy_hash());
                 System.out.println("calculated hash: "+blockService.calculateHash(block));
-
-
 
                 return false;
             }
@@ -124,6 +123,11 @@ public class BlockChainServiceImpl implements BlockChainService{
         if(blockchain == null) throw  new BlockChaineNotFoundException("blockchaine does not exist !");
 
         return blockchain;
+    }
+
+    @Override
+    public List<Blockchain> getAllBlochChain() {
+        return blockChainRepository.findAll();
     }
 
 }

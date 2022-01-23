@@ -32,9 +32,7 @@ public class BlockServiceImpl implements BlockService{
         newBlock.setCreated_at(new Date());
         newBlock.setPres_hash(prevHash);
         newBlock.setMy_hash(calculateHash(newBlock));
-        //newBlock.setTransactions(transactions);
         blockRepository.save(newBlock);
-
         if(transactions != null)
         {
             for(Transaction transaction:transactions)
@@ -53,11 +51,11 @@ public class BlockServiceImpl implements BlockService{
     @Override
     public String calculateHash(Block block) {
 
-        String dataToHash =  block.getPres_hash() + block.getCreated_at().toString()  + Integer.toString(block.getNonce());
+        String dataToHash =  block.getPres_hash() + block.getCreated_at().toString()
+                + Integer.toString(block.getNonce());
 
         if(block.getTransactions() != null)
             dataToHash+= block.getTransactions().hashCode();
-
         MessageDigest digest = null;
         byte[] bytes = null;
         try {
@@ -85,7 +83,7 @@ public class BlockServiceImpl implements BlockService{
         }
         System.out.println("found hash: "+hash);
         block.setMy_hash(hash);
-    return hash;
+        return hash;
     }
 
     @Override

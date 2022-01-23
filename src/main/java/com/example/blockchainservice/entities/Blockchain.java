@@ -17,8 +17,8 @@ public class Blockchain {
     @Id
     private String id;
     private String nom;
-    private int difficulté; // (entier utilisé au moment du minage),
-    private double miningReward; // (récompense attribuée au mineur du block).
+    private int difficulté;
+    private double miningReward;
     @OneToMany
     private List<Block> blocks = new LinkedList<>();
 

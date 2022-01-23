@@ -22,8 +22,5 @@ public class Block {
     private String pres_hash;
     @OneToMany(mappedBy = "block" ,cascade =CascadeType.ALL)
     private List<Transaction> transactions = new ArrayList<>();
-    private int  nonce; // (un entier utilisé au moment du minage des blocks).
-
-
-
+    private int  nonce;
 }

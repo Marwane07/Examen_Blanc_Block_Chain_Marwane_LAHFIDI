@@ -12,6 +12,5 @@ public interface BlockService {
      Block createBlock(List<Transaction> transactions, String prevHash);
      String calculateHash(Block block);
      Block mineBlock(int difficulty,Block block);
-
-    List<Block> getAllBlocks();
+     List<Block> getAllBlocks();
 }

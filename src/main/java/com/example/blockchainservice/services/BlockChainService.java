@@ -10,13 +10,11 @@ import java.util.Date;
 import java.util.List;
 
 public interface BlockChainService {
-
-
     Blockchain createBlockChain(String name,int difficulty,int reward);
     void mineBlock(String blockchainID,String min_adr, List<Transaction> pendingTransactions ) ;
     Block getLastBlock(String blockchainID);
     Boolean isValid(String blockchainID);
     double getAddressSolde(String blockchainID,String addr);
     Blockchain getBlockchaineByID(String id) throws BlockChaineNotFoundException;
-
+    List<Blockchain> getAllBlochChain();
 }
